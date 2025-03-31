@@ -1,95 +1,106 @@
-.signup-container {
+.register-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: url("../../assets/images/background.jpg") no-repeat center center;
-  background-size: cover;
+  min-height: 100vh;
+  background-color: #f4f4f4;
+  padding-top: 7rem; /* Push content below the navbar */
 }
 
-.signup-container form {
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  max-width: 350px;
-  width: 100%;
-}
-
-.signup-container h2 {
+.register-card {
+  height: max-content;
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.1);
+  width: 25rem;
   text-align: center;
-  margin-bottom: 20px;
 }
 
-.input-container {
-  position: relative;
-  margin-bottom: 20px;
+.title {
+  margin-bottom: 1rem;
+  color: #333;
 }
 
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
+.register-card form {
+  display: flex;
+  flex-direction: column;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  padding-right: 40px; /* Ensure there is enough space for the button */
-  border: 1px solid #aaa;
-  border-radius: 8px;
-  font-size: 14px;
-  box-sizing: border-box;
+.register-card label {
+  text-align: left;
+  font-weight: bold;
+  margin: 0.5rem 0 0.1rem 0;
 }
 
-input:focus {
-  outline: none;
-  border-color: #007bff;
+.register-card input {
+  width: 94%;
+  padding: 0.8rem;
+  border-radius: 0.2rem;
+  border: 0.1rem solid #CCC;
+  font-size: 1rem;
 }
 
-.error-message {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 12px;
-  color: red;
-}
-
-.signup-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.signup-button:hover {
-  background-color: #0056b3;
-}
-
-/* Password Eye Icon */
-/* Password Eye Icon */
-.password-container {
-  position: relative;
-}
 
 .toggle-password {
   position: absolute;
+  right: 0.5rem;
   top: 50%;
-  right: 10px; /* Adjust this value to move the button left or right */
   transform: translateY(-50%);
-  background: none;
-  border: none;
   cursor: pointer;
-  font-size: 16px;
-  padding: 0;
-  line-height: 1;
   color: #555;
 }
 
-.toggle-password:focus {
-  outline: none;
+.actions {
+  margin-top: 1rem;
+}
+
+.btn-register {
+  border: none !important;
+  background-color: #00897b;
+  color: white;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-register:hover {
+  background-color: #619791;
+}
+
+.login-link {
+  margin-top: 1rem;
+}
+/* Wrapper for inputs */
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Input error state */
+.input-error {
+  /* outline: none; */
+  border: 0.1rem solid red !important;
+  box-shadow: 0 0 0.1rem red;
+}
+
+/* Error message inside the border */
+.register-error-message {
+  position: absolute;
+  top: -0.8rem; /* Move it slightly above */
+  left: 0.8rem; /* Align with input */
+  background: white; /* Hide overlapping */
+  color: red;
+  font-size: 1rem;
+  padding: 0 0.3rem;
+  font-weight: bold;
+}
+
+/* Responsive Fix */
+@media (max-width: 700px) {
+  .register-card {
+    width: 80%;
+    padding: 1.5rem;
+  }
 }

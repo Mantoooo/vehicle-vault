@@ -1,170 +1,186 @@
 import { useForm } from "react-hook-form";
-import "../../assets/CSS/SignUp.css";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useState } from "react";
+// import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
+import "../../assets/CSS/SignUp.css";
+
+// import { Navbar } from "../layouts/Navbar";
+import axios from "axios";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 export const Signup = () => {
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm();
+  const { register, handleSubmit, formState: { errors }, } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const togglePasswordVisibility = (field) => {
-    if (field === "password") setShowPassword((prev) => !prev);
-    if (field === "confirmPassword") setShowConfirmPassword((prev) => !prev);
-  };
-
   const onSubmit = async (data) => {
+    const regdata = {
+      name: data.name,
+      contact: data.contact,
+      email: data.email,
+      password: data.password,
+    };
+
+    console.log("Sending data:", regdata);
+
     try {
-      const signupData = {
-        firstName: data.name,
-        status: true,
-        email: data.email,
-        password: data.password,
-        contact: data.contact,
-      };
+        const response = await toast.promise(
+            axios.post("http://localhost:8000/user", regdata, {
+                headers: { "Content-Type": "application/json" }
+            }),
+            {
+                pending: "Registering your account...",
+                success: "Registration successful! 🎉",
+                error: {
+                    render({ data }) {
+                        return data.response?.data?.message || "Registration failed! Please try again.";
+                    },
+                },
+            }
+        );
 
-      const res = await axios.post("/user", signupData);
+        if (response.status === 200) navigate("/login");
 
-      if (res.status === 201) {
-        alert("Signup successful!");
-        navigate("/login");
-      }
     } catch (error) {
-      alert("Signup failed. Please try again.");
+        console.error("Signup Error:", error);
     }
-  };
+};
 
-  const password = watch("password");
 
-  return (
-    <div className="signup-container">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <h2>Signup</h2>
 
-        {/* Name Field */}
-        <div className="input-container">
-          {errors.name && (
-            <span className="error-message">{errors.name.message}</span>
-          )}
-          <label>Name</label>
-          <input
-            type="text"
-            {...register("name", {
-              required: "Name is required",
-              minLength: {
-                value: 3,
-                message: "Min 3 characters",
-              },
-              maxLength: {
-                value: 50,
-                message: "Max 50 characters",
-              },
-            })}
-          />
-        </div>
-
-        {/* Email Field */}
-        <div className="input-container">
-          {errors.email && (
-            <span className="error-message">{errors.email.message}</span>
-          )}
-          <label>Email</label>
-          <input
-            type="email"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: "Invalid email format",
-              },
-            })}
-          />
-        </div>
-
-        {/* Contact Field */}
-        <div className="input-container">
-          {errors.contact && (
-            <span className="error-message">{errors.contact.message}</span>
-          )}
-          <label>Contact</label>
-          <input
-            type="text"
-            {...register("contact", {
-              required: "Contact is required",
-              pattern: {
-                value: /^[0-9]{10}$/,
-                message: "Must be 10 digits",
-              },
-            })}
-          />
-        </div>
-
-        {/* Password Field */}
-        <div className="input-container password-container">
-  {errors.password && (
-    <span className="error-message">{errors.password.message}</span>
-  )}
-  <label>Password</label>
-  <input
-    type={showPassword ? "text" : "password"}
-    {...register("password", {
-      required: "Password is required",
+  const Validators = {
+    nameValidator: {
+      required: {
+        value: true,
+        message: "Full Name is required"
+      },
       minLength: {
-        value: 8,
-        message: "Min 8 characters",
+        value: 5,
+        message: "Name must consist of atleast 5 character"
+      }
+    },
+    contactValidator: {
+      required: {
+        value: true,
+        message: "Contact is required"
       },
       pattern: {
-        value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/,
-        message: "1 upper, 1 lower, 1 digit required",
+        value: /^[0-9]{10}$/,
+        message: "Enter a valid 10-digit number",
       },
-    })}
-  />
-  <button
-    type="button"
-    className="toggle-password"
-    onClick={() => togglePasswordVisibility("password")}
-  >
-    {showPassword ? "" : ""}
-  </button>
-</div>
+    },
+    roleValidator: {
+      required: {
+        value: true,
+        message: "Role is required"
+      },
 
-        {/* Confirm Password Field */}
-        <div className="input-container password-container">
-          {errors.confirmPassword && (
-            <span className="error-message">
-              {errors.confirmPassword.message}
-            </span>
-          )}
-          <label>Confirm Password</label>
-          <input
-            type={showConfirmPassword ? "text" : "password"}
-            {...register("confirmPassword", {
-              required: "Confirm Password is required",
-              validate: (value) =>
-                value === password || "Passwords do not match",
-            })}
-          />
-          <button
-            type="button"
-            className="toggle-password"
-            onClick={() => togglePasswordVisibility("confirmPassword")}
-          >
-            {showConfirmPassword ? "" : ""}
-          </button>
+    },
+    emailValidator: {
+      required: {
+        value: true,
+        message: "Email is required"
+      },
+      pattern: {
+        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+        message: "Invalid email format",
+      },
+    },
+    passwordValidator: {
+      required: {
+        value: true,
+        message: "Password is required",
+      },
+      minLength: {
+        value: 6,
+        message: "Password must be at least 6 characters",
+      },
+    },
+    confirmPasswordValidator: {
+      required: {
+        value: true,
+        message: "Confirm Password is required",
+      },
+      validate: (value, { password }) =>
+        value === password || "Passwords do not match",
+    },
+    
+  }
+
+
+  return (
+    <>
+
+      {/* <Navbar></Navbar> */}
+      <div className="register-container">
+        <div className="register-card">
+          <h1 className="title">SignUp</h1>
+          <form onSubmit={handleSubmit(onSubmit)}>
+
+            {/* Full Name */}
+            <label htmlFor="name">Full Name:</label>
+            <div className="input-wrapper">
+              <input id="name" type="text" placeholder="Enter Full Name" autoComplete="name" className={errors.name && "input-error"}
+                {...register("name", Validators.nameValidator)} />
+              <span className="register-error-message">{errors.name?.message}</span>
+            </div>
+
+            {/* Contact No */}
+            <label htmlFor="contact">Contact No.:</label>
+            <div className="input-wrapper">
+              <input id="contact" type="text" placeholder="Enter contact no." autoComplete="tel" className={errors.contact && "input-error"}
+                {...register("contact", Validators.contactValidator)} />
+              <span className="register-error-message">{errors.contact?.message}</span>
+            </div>
+
+
+            {/* Email */}
+            <label htmlFor="email">Email:</label>
+            <div className="input-wrapper">
+              <input id="email" type="email" placeholder="Enter Email address" autoComplete="email" className={errors.email && "input-error"}
+                {...register("email", Validators.emailValidator)} />
+              <span className="register-error-message">{errors.email?.message}</span>
+            </div>
+
+            {/* Password */}
+            <label htmlFor="password">Password:</label>
+            <div className="input-wrapper">
+              <input id="password" type={showPassword ? "text" : "password"} placeholder="Enter Password" className={errors.password && "input-error"} {...register("password", Validators.passwordValidator)} />
+              <span className="toggle-password" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </span>
+              <span className="register-error-message">{errors.password?.message}</span>
+            </div>
+
+            {/* Confirm Password */}
+            <label htmlFor="confirmPassword">Confirm Password:</label>
+            <div className="input-wrapper">
+              <input id="confirmPassword" type={showConfirmPassword ? "text" : "password"} placeholder="Confirm Password" className={errors.confirmPassword && "input-error"} {...register("confirmPassword", Validators.confirmPasswordValidator)} />
+              <span className="toggle-password" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </span>
+              <span className="register-error-message">{errors.confirmPassword?.message}</span>
+            </div>
+
+
+            {/* Submit Button */}
+            <div className="actions">
+              <input type="submit" value="Register" className="btn-register" />
+            </div>
+          </form>
+
+          {/* Login Link */}
+          <p className="login-link">
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
         </div>
+      </div>
+    </>
 
-        <button type="submit" className="signup-button">
-          Signup
-        </button>
-      </form>
-    </div>
   );
 };
+
+export default Signup;

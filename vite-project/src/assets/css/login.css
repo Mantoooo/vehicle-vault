@@ -1,126 +1,131 @@
-/* Main Container */
 .login-container {
+
   display: flex;
   justify-content: center;
-  align-items: center;
   height: 100vh;
-  background: url("../../assets/images/background.jpg") no-repeat center center;
-  background-size: cover;
+  background-color: #f4f4f4;
+  padding-top: 7rem;
 }
 
-/* Form */
-.login-container form {
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  max-width: 350px;
-  width: 100%;
-}
-
-/* Header */
-.login-container h2 {
+.login-card {
+  height: max-content;
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.1);
+  width: 25rem;
   text-align: center;
-  margin-bottom: 20px;
 }
 
-/* Input Container */
-.input-container {
-  position: relative;
-  margin-bottom: 20px;
+.title {
+  margin-bottom: 1rem;
+  color: #333;
 }
 
-/* Label */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
 label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
+  text-align: left;
+  font-weight: bold;
+  margin: 0.5rem 0 0.2rem;
 }
 
-/* Input and Select */
-input,
-select {
-  width: 100%;
-  padding: 10px;
-  padding-right: 40px;
-  border: 1px solid #aaa;
-  border-radius: 8px;
-  font-size: 14px;
-  box-sizing: border-box;
+.login-card input {
+  width: 94%;
+  padding: 0.8rem;
+  border-radius: 0.2rem;
+  font-size: 1rem;
+  border: 0.1rem solid #CCC;
 }
 
-input:focus,
-select:focus {
-  outline: none;
-  border-color: #007bff;
-}
-
-/* Disabled Input Styling */
-input:disabled {
-  background-color: #f0f0f0;
-  color: #888;
-  cursor: not-allowed;
-}
-
-/* Error Message */
-.error-message {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 12px;
-  color: red;
-}
-
-/* Password Toggle (Eye Icon) */
-.password-container {
-  position: relative;
-}
 
 .toggle-password {
   position: absolute;
+  right: 0rem;
   top: 50%;
-  right: 10px;
   transform: translateY(-50%);
-  background: none;
-  border: none;
   cursor: pointer;
-  font-size: 18px;
+  color: #555;
 }
 
-/* Forgot Password Link */
-.forgot-password {
-  text-align: right;
-  margin-top: -10px;
-  margin-bottom: 20px;
+.actions {
+  margin-top: 1rem;
 }
 
-.forgot-password a {
-  color: #007bff;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.forgot-password a:hover {
-  text-decoration: underline;
-}
-
-/* Submit Button */
-.login-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #007bff;
+.btn-login {
+  border: none !important;
+  background-color: #00897b;
   color: white;
+  margin: auto;
+  padding: 0.8rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 0.2rem;
   cursor: pointer;
-  transition: background 0.3s;
+  font-size: 1rem;
 }
 
-.login-button:hover {
-  background-color: #0056b3;
+.btn-login:hover {
+  background-color: #619791;
+
 }
 
-.login-button:disabled {
-  background-color: #aaa;
-  cursor: not-allowed;
+.register-link {
+  margin-top: 1rem;
+}
+/* Wrapper for the input field */
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Input field with error: Red border */
+.input-error {
+  /* outline: none; */
+  border: 0.1rem solid red !important;
+  box-shadow: 0 0 0.1rem red;
+}
+
+/* Error message positioned on the border */
+.login-error-message {
+  position: absolute;
+  top: -0.8rem; /* Move it above the input */
+  left: 1rem ; /* Position it near the input */
+  background: white; /* Prevent overlapping */
+  color: red;
+  font-size: 1rem;
+  padding: 0 0.2rem;
+  font-weight: bold;
+}
+
+
+@media (max-width: 700px) {
+  .login-card {
+    width: 80%;
+    padding: 1.5rem;
+  }
+}
+.input-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  width: 100%;  /* Make input take full width */
+  padding-right: 2.5rem; /* Add space for the icon */
+}
+.toggle-password {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+}
+#password {
+  padding-right: 2.5rem; /* Create space for the toggle icon */
 }
